@@ -18,6 +18,9 @@ class Settings(BaseSettings):
     PGADMIN_PW: Optional[str]
     PROJECT_NAME: str
 
+    REDIS_HOST: str
+    REDIS_PORT: int
+
     EXCHANGERATE_API_SERVICE: str
     EXCHANGERATESAPI_API_KEY: str = ""
     OPENEXCHANGERATES_API_KEY: str = ""

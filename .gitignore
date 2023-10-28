@@ -9,3 +9,4 @@ src/.env
 .env
 .idea/
 /htmlcov/
+redis

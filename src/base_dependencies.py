@@ -21,3 +21,4 @@ async def get_exchangerates_service() -> AbstractExchangeApiService:
     service_name = settings.EXCHANGERATE_API_SERVICE
     api_client = EXCHANGE_RATE_SERVICES.get(service_name)()
     return api_client
+

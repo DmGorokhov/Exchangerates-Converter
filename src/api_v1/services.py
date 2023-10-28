@@ -1,13 +1,13 @@
 import json
-
+from fastapi.exceptions import HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, update, desc
 from sqlalchemy.exc import DBAPIError
-from .db_models import ExchangeRates
 from src.external_services.abstract_exchange_api_service import AbstractExchangeApiService
 from src.base_schemas import ExchangeServiceAPIResponse
+from src.utils import cache_currency_pair_rates, clear_pair_rates_cache
 from .schemas import ExchangeRateCreate, ServiceResponses
-from fastapi.exceptions import HTTPException
+from .db_models import ExchangeRates
 
 service_response = ServiceResponses()
 
@@ -24,6 +24,7 @@ async def create_rates(db_session: AsyncSession, rates: dict) -> None:
     await db_session.commit()
 
 
+@clear_pair_rates_cache
 async def update_rates(db_session: AsyncSession,
                        exchangerates_service: AbstractExchangeApiService) -> json:
     new_rates = await get_api_rates(exchangerates_service=exchangerates_service)
@@ -67,14 +68,20 @@ async def _get_currency_rate(latest_rates: ExchangeRates, currency_iso_code: str
         return latest_rates.rates.get(currency_iso_code)
 
 
-async def get_pair_rate(base_currency: str, target_currency: str, latest_rates: ExchangeRates) -> float:
-    base_currency_rate = await _get_currency_rate(latest_rates=latest_rates, currency_iso_code=base_currency)
-    target_currency_rate = await _get_currency_rate(latest_rates=latest_rates, currency_iso_code=target_currency)
+@cache_currency_pair_rates
+async def get_pair_rate(
+        db_session: AsyncSession, from_base: str, to_target: str):
+    latest_rates = await get_latest_rates(db_session=db_session)
+    base_currency_rate = await _get_currency_rate(latest_rates=latest_rates,
+                                                  currency_iso_code=from_base)
+    target_currency_rate = await _get_currency_rate(latest_rates=latest_rates,
+                                                    currency_iso_code=to_target)
     return target_currency_rate / base_currency_rate
 
 
 async def make_conversion(
         db_session: AsyncSession, amount: float, from_base: str, to_target: str):
-    latest_rates = await get_latest_rates(db_session=db_session)
-    pair_rate = await get_pair_rate(from_base, to_target, latest_rates)
+    pair_rate = await get_pair_rate(db_session=db_session,
+                                    from_base=from_base,
+                                    to_target=to_target)
     return pair_rate * amount
