@@ -20,4 +20,6 @@ class ServiceResponses(BaseModel):
     SERVER_ERROR: dict = {"error": "Sorry, service is unavailable now"}
 
     def last_update_response(self, last_updated_time: datetime):
-        return {"The latest update was": last_updated_time}
+        return {
+            "The latest update was":
+                last_updated_time.strftime("%Y-%m-%d %H:%M:%S")}

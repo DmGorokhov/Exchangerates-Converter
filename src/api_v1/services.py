@@ -1,4 +1,6 @@
 import json
+import pytz
+from datetime import datetime
 from fastapi.exceptions import HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, update, desc
@@ -52,10 +54,15 @@ async def get_latest_rates(db_session: AsyncSession) -> ExchangeRates | None:
     return query_result.scalars().first()
 
 
+async def _convert_date_in_moscow_tz(date: datetime) -> datetime:
+    return date.astimezone(pytz.timezone('Europe/Moscow'))
+
+
 async def fetch_last_update(db_session: AsyncSession):
     try:
         latest_rates = await get_latest_rates(db_session=db_session)
-        return service_response.last_update_response(latest_rates.updated_at)
+        last_update = await _convert_date_in_moscow_tz(latest_rates.updated_at)
+        return service_response.last_update_response(last_update)
     except DBAPIError as e:
         raise HTTPException(
             status_code=500, detail=service_response.SERVER_ERROR)
