@@ -52,7 +52,7 @@ Setup app
 make setup
 ```
 ___
-### 3. Usage
+### 4. Usage
 
 ```
 make start  # starts  web server, database, redis and pgadmin docker containers
@@ -66,7 +66,7 @@ make stop  # stops  all docker containers, which were started as daemon process
 
 Open your browser at http://127.0.0.1:8000/docs.
 You will see the automatic interactive API documentation and endpoints.  
-You can try it right there in interactive mode or you can query it in the terminal.  
+You can try it right there in interactive mode, or you can query it in the terminal.  
 In project are available 3 endpoints:
 1. [http://localhost:8000/api/v1/convert]()  
 Endpoint accepts 3 required request parameters, 
@@ -99,10 +99,10 @@ Request example in terminal with curl:
 curl -X GET 'http://localhost:8000/api/v1/last_update'
 ```
 ___
-### 4. Caching
+### 5. Caching
 ___
-### 5. Working with api of external exchange rate services
-#### 5.1 Service selection.
+### 6. Working with api of external exchange rate services
+#### 6.1 Service selection.
 The choice of service to request currency rates is specified by a pair of environment variables:
 EXCHANGERATE_API_SERVICE specifies the name of the service,  
 EXCHANGERATESAPI_API_KEY sets the api access key, if necessary.
@@ -112,11 +112,11 @@ comment out all the others. If you forget to comment out
 unnecessary services, the last one from top to bottom will be installed, because the last variables will 
 overwrite all previously installed ones.
 
-#### 5.2 Adding a new service
+#### 6.2 Adding a new service
 Adding a new service is fairly straightforward:
--  5.2.1 In the */src/external_services/response_schemas/* folder in the *schemas.py* module, you need to 
+-  6.2.1 In the */src/external_services/response_schemas/* folder in the *schemas.py* module, you need to 
 add the Pydantic model inherited from **ExchangeRatesBase** for parsing data from the new service's api. 
-- 5.2.2  In the */src/external_services/* folder create a new file for the interface adapter of the new service.
+- 6.2.2  In the */src/external_services/* folder create a new file for the interface adapter of the new service.
 The name of the module usually contains the name of the service itself with the addition of "_api" at the end.  
 In this module, import the **AbstractExchangeApiService** abstract class from *abstract_exchange_api_service.py* in
 the same directory. This class defines the required service interface through properties and methods.  
@@ -129,7 +129,7 @@ main application code. In general,
 many exchange services are very similar, and it will probably be enough
 for you to define the schema in the schemas.py module and alias the fields of the external api to match the 
 ExchangeServiceAPIResponse schema.
-- 5.2.3 Now you need to add the new service to your settings to be able to select it.
+- 6.2.3 Now you need to add the new service to your settings to be able to select it.
 To do this, in the .env file create another instance of the **EXCHANGERATE_API_SERVICE** environment 
 variable with the  
 name of your new service, and in the same file add a new environment variable for
@@ -139,7 +139,7 @@ dictionary, add the service name that you specified in the **EXCHANGERATE_API_SE
 as the dictionary key.  
 As the value for this key, import and specify the class created in 5.2.2. 
 You do not need to initialize the class in this place.  
-**And that's it!!! Now you can connect and use your service in accordance with point 5.1, described above.**
+**And that's it!!! Now you can connect and use your service in accordance with point 6.1, described above.**
 
 ___
 ### 6. Access to the database for development purposes (PgAdmin docker container)
