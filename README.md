@@ -1,6 +1,7 @@
 
 ___
 [![Maintainability](https://api.codeclimate.com/v1/badges/8ef4277f4b10d1603ffe/maintainability)](https://codeclimate.com/github/DmGorokhov/Exchangerates-Converter/maintainability)
+[![Github Actions Status](https://github.com//DmGorokhov/Exchangerates-Converter/workflows/Python%20CI/badge.svg)](https://github.com/DmGorokhov/Exchangerates-Converter/actions/pyci.yml)
 ### Main project stack:
 *FastAPI (v.0.103.2), SQLAlchemy2.0, Pydantic2.0, Alembic, Postresql, Asyncpg, Redis, httpx*
 
