@@ -9,14 +9,14 @@ build:
 
 setup: install build
 
-start-dev:
+start:
 	docker compose up
 
-start-server:
-	poetry run uvicorn src.main:app --reload --workers 1 --host 0.0.0.0 --port 8000
+start-d:
+	docker compose up -d
 
-test:
-	poetry run pytest
+stop:
+	docker compose stop
 
 lint:
 	poetry run flake8 .
