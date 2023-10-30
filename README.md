@@ -37,6 +37,7 @@ Cloning the repository
 
 ```bash
 git clone git@github.com:DmGorokhov/Exchangerates-Converter.git
+cd Exchangerates-Converter
 ```
 
 Activate virtual environment
@@ -44,8 +45,12 @@ Activate virtual environment
 ```bash
 poetry shell
 ```
-*Create .env file and set environment variables using file .env.example as example.
-For development purposes you can leave these variables as suggested in example.*
+**Create .env file and set environment variables using file .env.example as example.
+For development purposes you can leave these variables as suggested in example.  
+If you would like leave example variables (do it only for developer and check purposes) type in terminal:**
+```commandline
+mv .env.example .env
+```
 
 Setup app
 ```bash
@@ -100,6 +105,9 @@ curl -X GET 'http://localhost:8000/api/v1/last_update'
 ```
 ___
 ### 5. Caching
+The project provides caching of currency pairs rates via Redis. At the first conversion request, both forward (e.g. USDEUR) and reverse rates (EURUSD) are cached.  
+At the next conversion request for these currency pairs, the value is requested from the cache, which eliminates unnecessary requests to the database. At the same time,  
+the cache is deleted at each request to update currency rates.
 ___
 ### 6. Working with api of external exchange rate services
 #### 6.1 Service selection.
