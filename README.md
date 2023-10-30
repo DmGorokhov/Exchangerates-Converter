@@ -105,8 +105,8 @@ curl -X GET 'http://localhost:8000/api/v1/last_update'
 ```
 ___
 ### 5. Caching
-The project provides caching of currency pairs rates via Redis. At the first conversion request, both forward (e.g. USDEUR) and reverse rates (EURUSD) are cached.  
-At the next conversion request for these currency pairs, the value is requested from the cache, which eliminates unnecessary requests to the database. At the same time,  
+The project provides caching of currency pairs rates via Redis. At the first conversion request, both forward (e.g. USDEUR) and reverse rates (EURUSD) are cached.
+At the next conversion request for these currency pairs, the value is requested from the cache, which eliminates unnecessary requests to the database. At the same time,
 the cache is deleted at each request to update currency rates.
 ___
 ### 6. Working with api of external exchange rate services
