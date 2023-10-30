@@ -1,4 +1,4 @@
-from src.external_services.abstract_exchange_api_service import AbstractExchangeApiService
+from src.external_services.abstract_exchange_api_service import AbstractExchangeApiService # noqa E501
 from src.config import settings
 from src.base_schemas import ExchangeServiceAPIResponse
 from .response_schemas.schemas import ExchangeRatesAPIResponse
@@ -19,7 +19,7 @@ class ExchangeRatesApiService(AbstractExchangeApiService):
 
     @property
     def _base_request_url(self) -> str:
-        request_url = f"{self.base_api_url}latest?access_key={self._get_api_key()}"
+        request_url = f"{self.base_api_url}latest?access_key={self._get_api_key()}" # noqa E501
         return request_url
 
     async def get_latest_rates(self) -> ExchangeServiceAPIResponse | None:

@@ -10,7 +10,7 @@ async def make_async_httpx_request(request_url: str) -> dict | None:
             response = await client.get(request_url)
             data = response.json()
             return data
-        except httpx.RequestError as e:
+        except httpx.RequestError as e: # noqa F841
             """Implement some logging here"""
             return
 

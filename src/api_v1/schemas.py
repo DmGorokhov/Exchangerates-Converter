@@ -9,7 +9,9 @@ class ExchangeRateCreate(ExchangeRatesBase):
 
     @model_validator(mode="before")
     def fetch_currency_name(cls, values):
-        currency = pycountry.currencies.get(alpha_3=values.get("currency_iso_code"))
+        currency = pycountry.currencies.get(
+            alpha_3=values.get("currency_iso_code")
+        )
         if currency:
             values['currency_name'] = currency.name
         return values

@@ -1,8 +1,8 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from .database.database import session_factory
 from src.external_services.exchangerates_api import ExchangeRatesApiService
-from src.external_services.openexchangerates_api import OpenExchangeRatesApiService
-from src.external_services.abstract_exchange_api_service import AbstractExchangeApiService
+from src.external_services.openexchangerates_api import OpenExchangeRatesApiService  # noqa E501
+from src.external_services.abstract_exchange_api_service import AbstractExchangeApiService  # noqa E501
 from src.config import settings
 
 EXCHANGE_RATE_SERVICES = {
@@ -21,4 +21,3 @@ async def get_exchangerates_service() -> AbstractExchangeApiService:
     service_name = settings.EXCHANGERATE_API_SERVICE
     api_client = EXCHANGE_RATE_SERVICES.get(service_name)()
     return api_client
-

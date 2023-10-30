@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, status
 from src.base_dependencies import get_db_session, get_exchangerates_service
 from sqlalchemy.ext.asyncio import AsyncSession
-from src.external_services.abstract_exchange_api_service import AbstractExchangeApiService
+from src.external_services.abstract_exchange_api_service import AbstractExchangeApiService  # noqa E501
 from .services import update_rates, fetch_last_update, make_conversion
 from .dependencies import get_currency_codes
 from typing import Annotated
@@ -11,7 +11,8 @@ router = APIRouter(responses={404: {"description": "Not found"}})
 
 @router.get("/convert", status_code=status.HTTP_200_OK)
 async def get_conversion(amount: float,
-                         currency_codes: Annotated[dict, Depends(get_currency_codes)],
+                         currency_codes: Annotated[
+                             dict, Depends(get_currency_codes)],
                          session: AsyncSession = Depends(get_db_session)):
     convert_response = await make_conversion(db_session=session,
                                              amount=amount,
