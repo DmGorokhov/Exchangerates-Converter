@@ -7,6 +7,9 @@ migrations:
 build:
 	docker compose build
 
+setup-hooks:
+	poetry run pre-commit install
+
 setup: install build
 
 start:
@@ -20,4 +23,3 @@ stop:
 
 lint:
 	poetry run flake8 .
-
